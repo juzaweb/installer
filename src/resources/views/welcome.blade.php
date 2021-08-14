@@ -1,21 +1,21 @@
 @extends('installer::layouts.master')
 
 @section('template_title')
-    {{ trans('installer::installer_messages.welcome.templateTitle') }}
+    {{ trans('installer::message.welcome.templateTitle') }}
 @endsection
 
 @section('title')
-    {{ trans('installer::installer_messages.welcome.title') }}
+    {{ trans('installer::message.welcome.title') }}
 @endsection
 
 @section('container')
 
     <p class="text-center">
-      {{ trans('installer::installer_messages.welcome.message') }}
+      {{ trans('installer::message.welcome.message') }}
     </p>
     <p class="text-center">
       <a href="{{ route('installer::requirements') }}" class="button">
-        {{ trans('installer::installer_messages.welcome.next') }}
+        {{ trans('installer::message.welcome.next') }}
         <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i>
       </a>
     </p>

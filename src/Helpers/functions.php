@@ -13,11 +13,15 @@ if (! function_exists('isActive')) {
         if (is_array($route)) {
             return in_array(Route::currentRouteName(), $route) ? $className : '';
         }
+
         if (Route::currentRouteName() == $route) {
             return $className;
         }
+
         if (strpos(URL::current(), $route)) {
             return $className;
         }
+
+        return false;
     }
 }

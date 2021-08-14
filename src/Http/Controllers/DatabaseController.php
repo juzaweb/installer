@@ -30,7 +30,7 @@ class DatabaseController extends Controller
     {
         $response = $this->databaseManager->run();
 
-        return redirect()->route('installer::admin')
+        return redirect()->route('installer.admin')
                          ->with(['message' => $response]);
     }
 }

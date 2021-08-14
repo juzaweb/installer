@@ -10,13 +10,13 @@
         <script src="{{ asset('juzaweb/core/styles/js/jquery.min.js') }}"></script>
         <link href="{{ asset('juzaweb/core/installer/css/style.css') }}" rel="stylesheet"/>
 
-        @yield('style')
-
         <script>
             window.Laravel = @json([
                 'csrfToken' => csrf_token(),
             ])
         </script>
+
+        @yield('style')
     </head>
     <body>
         <div class="master">
@@ -24,19 +24,20 @@
                 <div class="header">
                     <h1 class="header__title">@yield('title')</h1>
                 </div>
+
                 <ul class="step">
                     <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('installer::final') }}">
+                    <li class="step__item {{ isActive('installer.final') }}">
                         <i class="step__icon fa fa-server" aria-hidden="true"></i>
                     </li>
                     <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('installer::admin') }}">
+                    <li class="step__item {{ isActive('installer.admin') }}">
                         <i class="step__icon fa fa-user" aria-hidden="true"></i>
                     </li>
                     <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('installer::environment')}} {{ isActive('installer::environmentWizard')}} {{ isActive('installer::environmentClassic')}}">
-                        @if(Request::is('install/environment') || Request::is('install/environment/wizard') || Request::is('install/environment/classic') )
-                            <a href="{{ route('installer::environmentWizard') }}">
+                    <li class="step__item {{ isActive('installer.environment') }}">
+                        @if(Request::is('install/environment') )
+                            <a href="{{ route('installer.environment') }}">
                                 <i class="step__icon fa fa-cog" aria-hidden="true"></i>
                             </a>
                         @else
@@ -44,9 +45,9 @@
                         @endif
                     </li>
                     <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('installer::permissions') }}">
+                    <li class="step__item {{ isActive('installer.permissions') }}">
                         @if(Request::is('install/permissions') || Request::is('install/environment') || Request::is('install/environment/wizard') || Request::is('install/environment/classic') )
-                            <a href="{{ route('installer::permissions') }}">
+                            <a href="{{ route('installer.permissions') }}">
                                 <i class="step__icon fa fa-key" aria-hidden="true"></i>
                             </a>
                         @else

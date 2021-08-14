@@ -13,76 +13,59 @@ use Illuminate\Support\Facades\Validator;
 
 class EnvironmentController extends Controller
 {
-    /**
-     * @var EnvironmentManager
-     */
-    protected $EnvironmentManager;
+    protected $environmentManager;
 
-    /**
-     * @param EnvironmentManager $environmentManager
-     */
     public function __construct(EnvironmentManager $environmentManager)
     {
-        $this->EnvironmentManager = $environmentManager;
+        $this->environmentManager = $environmentManager;
     }
 
-    /**
-     * Display the Environment page.
-     *
-     * @return \Illuminate\View\View
-     */
     public function environment()
     {
-        $envConfig = $this->EnvironmentManager->getEnvContent();
+        $envConfig = $this->environmentManager->getEnvContent();
 
-        return view('installer::environment-wizard', compact('envConfig'));
+        return view('installer::environment', compact('envConfig'));
     }
 
-    /**
-     * Processes the newly saved environment configuration (Form Wizard).
-     *
-     * @param Request $request
-     * @param Redirector $redirect
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function saveWizard(Request $request, Redirector $redirect)
+    public function save(Request $request, Redirector $redirect)
     {
-        $rules = config('installer.environment.form.rules');
-        $messages = [
-            'environment_custom.required_if' => trans('installer::installer_messages.environment.wizard.form.name_required'),
+        $rules = [
+            'database_hostname'     => 'required|string|max:150',
+            'database_port'         => 'required|numeric',
+            'database_name'         => 'required|string|max:150',
+            'database_username'     => 'required|string|max:150',
+            'database_password'     => 'nullable|string|max:150',
         ];
 
-        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $redirect->route('installer::environmentWizard')->withInput()->withErrors($validator->errors());
+            return $redirect->route('installer.environment')
+                ->withInput()
+                ->withErrors($validator->errors());
         }
 
         if (! $this->checkDatabaseConnection($request)) {
-            return $redirect->route('installer::environmentWizard')->withInput()->withErrors([
-                'database_connection' => trans('installer::installer_messages.environment.wizard.form.db_connection_failed'),
+            return $redirect->route('installer.environment')
+                ->withInput()
+                ->withErrors([
+                'database_connection' => trans('installer::message.environment.wizard.form.db_connection_failed'),
             ]);
         }
 
-        $results = $this->EnvironmentManager->saveFileWizard($request);
+        $results = $this->environmentManager->saveFileWizard($request);
 
         event(new EnvironmentSaved($request));
 
-        return $redirect->route('installer::database')
+        return $redirect->route('installer.database')
                         ->with(['results' => $results]);
     }
 
-    /**
-     * Validate database connection with user credentials (Form Wizard).
-     *
-     * @param Request $request
-     * @return bool
-     */
     private function checkDatabaseConnection(Request $request)
     {
         $connection = 'mysql';
 
-        $settings = config("database.connections.$connection");
+        $settings = config("database.connections.{$connection}");
 
         config([
             'database' => [

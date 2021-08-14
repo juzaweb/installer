@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Laravel Installer',
+    'title' => 'Juzaweb CMS Installer',
     'next' => 'Next Step',
     'back' => 'Previous',
     'finish' => 'Install',

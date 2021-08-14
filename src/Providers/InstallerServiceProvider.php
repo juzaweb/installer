@@ -10,18 +10,6 @@ use Juzaweb\Installer\Http\Middleware\Installed;
 
 class InstallerServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
     public function register()
     {
         $this->publishFiles();
@@ -43,10 +31,9 @@ class InstallerServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $router->middlewareGroup('install', [CanInstall::class]);
-        $router->pushMiddlewareToGroup('web', Installed::class);
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'installer');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'installer');
+        $router->aliasMiddleware('install', CanInstall::class);
+        $router->pushMiddlewareToGroup('theme', Installed::class);
+        $this->registerViews();
     }
 
     /**
@@ -57,7 +44,13 @@ class InstallerServiceProvider extends ServiceProvider
     protected function publishFiles()
     {
         $this->publishes([
-            __DIR__.'/../../config/installer.php' => base_path('config/installer.php'),
+            __DIR__ . '/../../config/installer.php' => base_path('config/installer.php'),
         ], 'installer_config');
+    }
+
+    protected function registerViews()
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'installer');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'installer');
     }
 }

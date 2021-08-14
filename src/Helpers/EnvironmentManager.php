@@ -93,13 +93,14 @@ class EnvironmentManager
     public function saveFileWizard(Request $request)
     {
         $results = trans('installer::installer_messages.environment.success');
+        $url = url('/');
 
         $envFileData =
-        "APP_NAME=Juzawebcms\n".
+        "APP_NAME=Juzaweb\n".
         "APP_ENV=production\n".
         "APP_KEY=base64:".base64_encode(Str::random(32))."\n".
         "APP_DEBUG=false\n".
-        "APP_URL=http://localhost\n\n".
+        "APP_URL={$url}\n\n".
         "LOG_CHANNEL=daily\n\n".
         "DB_CONNECTION=". $request->input('database_connection') ."\n".
         "DB_HOST=". $request->input('database_hostname') ."\n".
@@ -107,7 +108,7 @@ class EnvironmentManager
         'DB_DATABASE='. $request->input('database_name') ."\n".
         'DB_USERNAME='. $request->input('database_username') ."\n".
         'DB_PASSWORD='. $request->input('database_password') ."\n".
-        'DB_PREFIX='. $request->input('database_prefix', 'juzaweb_') ."\n\n".
+        'DB_PREFIX='. $request->input('database_prefix', 'jw_') ."\n\n".
         "BROADCAST_DRIVER=log\n".
         "CACHE_DRIVER=file\n".
         "SESSION_DRIVER=file\n".

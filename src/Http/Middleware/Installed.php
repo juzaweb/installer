@@ -25,8 +25,8 @@ class Installed
     public function handle($request, Closure $next)
     {
         if (!Intaller::alreadyInstalled()) {
-            if (strpos(Route::currentRouteName(), 'installer::') === false) {
-                return redirect()->route('installer::welcome');
+            if (strpos(Route::currentRouteName(), 'installer.') === false) {
+                return redirect()->route('installer.welcome');
             }
         }
 
