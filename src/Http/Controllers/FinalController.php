@@ -3,7 +3,7 @@
 namespace Juzaweb\Installer\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Juzaweb\Installer\Events\LaravelInstallerFinished;
+use Juzaweb\Installer\Events\InstallerFinished;
 use Juzaweb\Installer\Helpers\EnvironmentManager;
 use Juzaweb\Installer\Helpers\FinalInstallManager;
 use Juzaweb\Installer\Helpers\InstalledFileManager;
@@ -17,6 +17,7 @@ class FinalController extends Controller
      * @param \Juzaweb\Installer\Helpers\FinalInstallManager $finalInstall
      * @param \Juzaweb\Installer\Helpers\EnvironmentManager $environment
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Throwable
      */
     public function finish (
         InstalledFileManager $fileManager,
@@ -27,7 +28,7 @@ class FinalController extends Controller
         $finalMessages = $finalInstall->runFinal();
         $finalStatusMessage = $fileManager->update();
 
-        event(new LaravelInstallerFinished);
+        event(new InstallerFinished());
 
         return view('installer::finished', compact(
             'finalMessages',

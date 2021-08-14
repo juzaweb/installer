@@ -63,6 +63,6 @@ class AdminController extends Controller
         }
 
         return redirect()->route('installer.final')
-            ->with(['message' => trans('installer::installer_messages.final.finished')]);
+            ->with(['message' => trans('installer::message.final.finished')]);
     }
 }

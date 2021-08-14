@@ -73,12 +73,12 @@ class EnvironmentManager
      */
     public function saveFileClassic(Request $input)
     {
-        $message = trans('installer::installer_messages.environment.success');
+        $message = trans('installer::message.environment.success');
 
         try {
             file_put_contents($this->envPath, $input->get('envConfig'));
         } catch (Exception $e) {
-            $message = trans('installer::installer_messages.environment.errors');
+            $message = trans('installer::message.environment.errors');
         }
 
         return $message;
@@ -92,7 +92,7 @@ class EnvironmentManager
      */
     public function saveFileWizard(Request $request)
     {
-        $results = trans('installer::installer_messages.environment.success');
+        $results = trans('installer::message.environment.success');
         $url = url('/');
 
         $envFileData =
@@ -133,7 +133,7 @@ class EnvironmentManager
         try {
             file_put_contents($this->envPath, $envFileData);
         } catch (Exception $e) {
-            $results = trans('installer::installer_messages.environment.errors');
+            $results = trans('installer::message.environment.errors');
         }
 
         return $results;
