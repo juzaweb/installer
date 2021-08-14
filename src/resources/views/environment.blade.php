@@ -1,7 +1,7 @@
 @extends('installer::layouts.master')
 
 @section('template_title')
-    {{ trans('installer::message.environment.wizard.templateTitle') }}
+    {{ trans('installer::message.environment.wizard.template_title') }}
 @endsection
 
 @section('title')
@@ -10,7 +10,7 @@
 @endsection
 
 @section('container')
-    <form method="post" action="{{ route('installer::environmentSaveWizard') }}" class="tabs-wrap" autocomplete="off">
+    <form method="post" action="{{ route('installer.environmentSaveWizard') }}" class="tabs-wrap" autocomplete="off">
         @csrf
 
         <div class="form-group">

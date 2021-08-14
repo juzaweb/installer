@@ -44,7 +44,7 @@ class AdminController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('installer::admin')
+                ->route('installer.admin')
                 ->withInput()
                 ->withErrors($validator->errors());
         }
@@ -62,7 +62,7 @@ class AdminController extends Controller
             throw $e;
         }
 
-        return redirect()->route('installer::final')
+        return redirect()->route('installer.final')
             ->with(['message' => trans('installer::installer_messages.final.finished')]);
     }
 }

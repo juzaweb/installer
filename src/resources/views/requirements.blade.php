@@ -1,7 +1,7 @@
 @extends('installer::layouts.master')
 
 @section('template_title')
-    {{ trans('installer::message.requirements.templateTitle') }}
+    {{ trans('installer::message.requirements.template_title') }}
 @endsection
 
 @section('title')
@@ -40,7 +40,7 @@
 
     @if ( ! isset($requirements['errors']) && $phpSupportInfo['supported'] )
         <div class="buttons">
-            <a class="button" href="{{ route('installer::permissions') }}">
+            <a class="button" href="{{ route('installer.permissions') }}">
                 {{ trans('installer::message.requirements.next') }}
                 <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i>
             </a>

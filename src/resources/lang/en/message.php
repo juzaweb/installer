@@ -6,38 +6,38 @@ return [
     'back' => 'Previous',
     'finish' => 'Install',
     'forms' => [
-        'errorTitle' => 'The Following errors occurred:',
+        'error_title' => 'The Following errors occurred:',
     ],
 
     'welcome' => [
-        'templateTitle' => 'Welcome',
+        'template_title' => 'Welcome',
         'title'   => 'Laravel Installer',
         'message' => 'Easy Installation and Setup Wizard.',
         'next'    => 'Check Requirements',
     ],
 
     'requirements' => [
-        'templateTitle' => 'Step 1 | Server Requirements',
+        'template_title' => 'Step 1 | Server Requirements',
         'title' => 'Server Requirements',
         'next'    => 'Check Permissions',
     ],
 
     'permissions' => [
-        'templateTitle' => 'Step 2 | Permissions',
+        'template_title' => 'Step 2 | Permissions',
         'title' => 'Permissions',
         'next' => 'Configure Environment',
     ],
 
     'environment' => [
         'menu' => [
-            'templateTitle' => 'Step 3 | Environment Settings',
+            'template_title' => 'Step 3 | Environment Settings',
             'title' => 'Environment Settings',
             'desc' => 'Please select how you want to configure the apps <code>.env</code> file.',
-            'wizard-button' => 'Form Wizard Setup',
+            'wizard_button' => 'Form Wizard Setup',
             'classic-button' => 'Classic Text Editor',
         ],
         'wizard' => [
-            'templateTitle' => 'Step 3 | Environment Settings | Guided Wizard',
+            'template_title' => 'Step 3 | Environment Settings | Guided Wizard',
             'title' => 'Guided <code>.env</code> Wizard',
             'tabs' => [
                 'environment' => 'Environment',
@@ -136,13 +136,6 @@ return [
                 ],
             ],
         ],
-        'classic' => [
-            'templateTitle' => 'Step 3 | Environment Settings | Classic Editor',
-            'title' => 'Classic Environment Editor',
-            'save' => 'Save .env',
-            'back' => 'Use Form Wizard',
-            'install' => 'Save and Install',
-        ],
         'success' => 'Your .env file settings have been saved.',
         'errors' => 'Unable to save the .env file, Please create it manually.',
     ],
@@ -154,7 +147,7 @@ return [
 
     'final' => [
         'title' => 'Installation Finished',
-        'templateTitle' => 'Installation Finished',
+        'template_title' => 'Installation Finished',
         'database_finished' => 'Application database installed. Please set up your admin user.',
         'finished' => 'Application has been successfully installed.',
         'migration' => 'Migration &amp; Seed Console Output:',
