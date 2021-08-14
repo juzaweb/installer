@@ -8,7 +8,7 @@
         <title>@yield('template_title')</title>
 
         <script src="{{ asset('juzaweb/core/styles/js/jquery.min.js') }}"></script>
-        <link href="{{ asset('juzaweb/installer/css/style.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('juzaweb/core/installer/css/style.css') }}" rel="stylesheet"/>
 
         @yield('style')
 
