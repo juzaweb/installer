@@ -6,10 +6,6 @@
  * @author     The Anh Dang <dangtheanh16@gmail.com>
  * @link       https://github.com/juzaweb/cms
  * @license    MIT
- *
- * Created by JUZAWEB.
- * Date: 6/13/2021
- * Time: 12:50 PM
  */
 
 Route::group([

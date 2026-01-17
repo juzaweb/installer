@@ -12,30 +12,29 @@
  * Time: 11:22 AM
  */
 
-namespace Juzaweb\Installer\Console\Commands;
+namespace Juzaweb\Installer\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Juzaweb\Installer\Helpers\DatabaseManager;
 use Juzaweb\Installer\Helpers\FinalInstallManager;
 use Juzaweb\Installer\Helpers\InstalledFileManager;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Core\Models\User;
+use Juzaweb\Modules\Admin\Models\User;
 
 class InstallCommand extends Command
 {
     protected $signature = 'juzaweb:install';
 
-    protected $user;
+    protected array $user;
 
     public function handle(
         DatabaseManager $databaseManager,
         InstalledFileManager $fileManager,
         FinalInstallManager $finalInstall
-    )
-    {
-        $this->info('MYMO CMS Installer');
+    ) {
+        $this->info('Juzaweb CMS Installtion');
         $this->info('-- Database Install');
         $databaseManager->run();
         $this->info('-- Publish assets');
@@ -47,7 +46,7 @@ class InstallCommand extends Command
         $this->info('MYMO CMS Install Successfully !!!');
     }
 
-    protected function createAdminUser()
+    protected function createAdminUser(): void
     {
         $this->user['name'] = $this->ask('Full Name?');
         $this->user['email'] = $this->ask('Email?');
@@ -68,17 +67,14 @@ class InstallCommand extends Command
             $this->createAdminUser();
         }
 
-        DB::beginTransaction();
-        try {
-            $model = new User();
-            $model->fill($this->user);
-            $model->password = Hash::make($this->user['password']);
-            $model->is_admin = 1;
-            $model->save();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        DB::transaction(
+            function () {
+                $model = new User();
+                $model->fill($this->user);
+                $model->password = Hash::make($this->user['password']);
+                $model->is_super_admin = 1;
+                $model->save();
+            }
+        );
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Juzaweb\Core\Models\User;
+use Juzaweb\Modules\Admin\Models\User;
 
 class AdminController extends Controller
 {
@@ -49,18 +49,15 @@ class AdminController extends Controller
                 ->withErrors($validator->errors());
         }
 
-        DB::beginTransaction();
-        try {
-            $model = new User();
-            $model->fill($request->all());
-            $model->password = Hash::make($request->post('password'));
-            $model->is_admin = 1;
-            $model->save();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+        DB::transaction(
+            function () use ($request) {
+                $model = new User();
+                $model->fill($request->all());
+                $model->password = Hash::make($request->post('password'));
+                $model->is_super_admin = 1;
+                $model->save();
+            }
+        );
 
         return redirect()->route('installer.final')
             ->with(['message' => trans('installer::message.final.finished')]);

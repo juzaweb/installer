@@ -4,13 +4,13 @@ namespace Juzaweb\Installer\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Juzaweb\Installer\Console\Commands\InstallCommand;
+use Juzaweb\Installer\Commands\InstallCommand;
 use Juzaweb\Installer\Http\Middleware\CanInstall;
 use Juzaweb\Installer\Http\Middleware\Installed;
 
 class InstallerServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->publishFiles();
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
@@ -29,7 +29,7 @@ class InstallerServiceProvider extends ServiceProvider
      *
      * @param \Illuminate\Routing\Router $router
      */
-    public function boot(Router $router)
+    public function boot(Router $router): void
     {
         $router->aliasMiddleware('install', CanInstall::class);
         $router->pushMiddlewareToGroup('web', Installed::class);
@@ -41,14 +41,14 @@ class InstallerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function publishFiles()
+    protected function publishFiles(): void
     {
         $this->publishes([
             __DIR__ . '/../../config/installer.php' => base_path('config/installer.php'),
         ], 'installer_config');
     }
 
-    protected function registerViews()
+    protected function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'installer');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'installer');
