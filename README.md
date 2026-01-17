@@ -178,6 +178,27 @@ vendor/bin/phpunit tests/Feature/InstallerRoutesTest.php
 vendor/bin/phpunit --testdox
 ```
 
+### Test Coverage
+
+The test suite includes:
+
+**Feature Tests:**
+- `InstallerRoutesTest` - Tests for all GET routes (welcome, requirements, permissions, environment)
+- `EnvironmentPostTest` - Validation tests for environment configuration POST endpoint
+- `AdminPostTest` - Validation tests for admin account creation POST endpoint
+- `InstallerMiddlewareTest` - Tests for middleware behavior and CSRF protection
+
+**Unit Tests:**
+- `HelperFunctionsTest` - Tests for the `isActive()` helper function
+
+All tests cover:
+- Route accessibility
+- Form validation rules
+- Error handling and redirects
+- Input preservation on validation failure
+- Middleware functionality
+
+
 ### Code Formatting
 
 The package uses Laravel Pint for code formatting:
