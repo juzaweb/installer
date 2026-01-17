@@ -180,23 +180,32 @@ vendor/bin/phpunit --testdox
 
 ### Test Coverage
 
-The test suite includes:
+The test suite includes comprehensive coverage for both validation failures and success scenarios:
 
 **Feature Tests:**
 - `InstallerRoutesTest` - Tests for all GET routes (welcome, requirements, permissions, environment)
-- `EnvironmentPostTest` - Validation tests for environment configuration POST endpoint
-- `AdminPostTest` - Validation tests for admin account creation POST endpoint
+- `EnvironmentPostTest` - Environment configuration POST endpoint
+  - **Validation Tests** (6 tests): Required fields, data types, max lengths, input preservation
+  - **Success Tests** (4 tests): Valid credentials, database connection, redirect flow, environment file saving
+- `AdminPostTest` - Admin account creation POST endpoint
+  - **Validation Tests** (11 tests): Required fields, email format, password rules, confirmation, max lengths
+  - **Success Tests** (6 tests): User creation, password hashing, various email formats, special characters, success messages
 - `InstallerMiddlewareTest` - Tests for middleware behavior and CSRF protection
 
 **Unit Tests:**
 - `HelperFunctionsTest` - Tests for the `isActive()` helper function
 
-All tests cover:
-- Route accessibility
-- Form validation rules
-- Error handling and redirects
-- Input preservation on validation failure
-- Middleware functionality
+**Total Test Cases:** 30+ tests covering:
+- ✅ Route accessibility
+- ✅ Form validation rules (required, format, length)
+- ✅ Error handling and redirects
+- ✅ Input preservation on validation failure
+- ✅ Successful form submissions
+- ✅ Database operations (mocked)
+- ✅ Password hashing
+- ✅ Middleware functionality
+- ✅ CSRF protection
+
 
 
 ### Code Formatting

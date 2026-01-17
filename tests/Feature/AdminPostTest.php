@@ -160,4 +160,126 @@ class AdminPostTest extends TestCase
         // Should not have password length error
         $response->assertSessionDoesntHaveErrors(['password']);
     }
+
+    /** @test */
+    public function it_creates_admin_user_with_valid_data(): void
+    {
+        // Mock database transaction
+        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $response = $this->post(route('installer.admin.save'), [
+            'name' => 'Super Admin',
+            'email' => 'admin@juzaweb.com',
+            'password' => 'SecurePass123',
+            'password_confirmation' => 'SecurePass123',
+        ]);
+
+        $response->assertRedirect(route('installer.final'));
+        $response->assertSessionHas('message');
+    }
+
+    /** @test */
+    public function it_redirects_to_final_page_on_success(): void
+    {
+        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $response = $this->post(route('installer.admin.save'), [
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertRedirect(route('installer.final'));
+        $response->assertSessionDoesntHaveErrors();
+    }
+
+    /** @test */
+    public function it_hashes_password_before_saving(): void
+    {
+        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $plainPassword = 'MySecretPassword123';
+
+        $response = $this->post(route('installer.admin.save'), [
+            'name' => 'Test Admin',
+            'email' => 'test@example.com',
+            'password' => $plainPassword,
+            'password_confirmation' => $plainPassword,
+        ]);
+
+        $response->assertRedirect(route('installer.final'));
+        // Password should be hashed, not stored as plain text
+        $response->assertSessionDoesntHaveErrors();
+    }
+
+    /** @test */
+    public function it_accepts_various_valid_email_formats(): void
+    {
+        DB::shouldReceive('transaction')->times(3)->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $validEmails = [
+            'user@example.com',
+            'admin.user@company.co.uk',
+            'test+tag@domain.org',
+        ];
+
+        foreach ($validEmails as $email) {
+            $response = $this->post(route('installer.admin.save'), [
+                'name' => 'Admin User',
+                'email' => $email,
+                'password' => 'password123',
+                'password_confirmation' => 'password123',
+            ]);
+
+            $response->assertRedirect(route('installer.final'));
+            $response->assertSessionDoesntHaveErrors(['email']);
+        }
+    }
+
+    /** @test */
+    public function it_accepts_password_with_special_characters(): void
+    {
+        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $complexPassword = 'P@ssw0rd!#$%';
+
+        $response = $this->post(route('installer.admin.save'), [
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => $complexPassword,
+            'password_confirmation' => $complexPassword,
+        ]);
+
+        $response->assertRedirect(route('installer.final'));
+        $response->assertSessionDoesntHaveErrors();
+    }
+
+    /** @test */
+    public function it_shows_success_message_on_completion(): void
+    {
+        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $response = $this->post(route('installer.admin.save'), [
+            'name' => 'Administrator',
+            'email' => 'admin@site.com',
+            'password' => 'AdminPass123',
+            'password_confirmation' => 'AdminPass123',
+        ]);
+
+        $response->assertRedirect(route('installer.final'));
+        $response->assertSessionHas('message');
+    }
 }

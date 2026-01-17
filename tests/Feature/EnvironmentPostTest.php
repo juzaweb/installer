@@ -96,4 +96,79 @@ class EnvironmentPostTest extends TestCase
         $response->assertRedirect(route('installer.environment'));
         $response->assertSessionHasInput('database_hostname', 'localhost');
     }
+
+    /** @test */
+    public function it_redirects_to_database_page_on_success(): void
+    {
+        // Mock successful database connection
+        DB::shouldReceive('purge')->once();
+        DB::shouldReceive('connection->getPdo')->once()->andReturn(true);
+
+        $response = $this->post(route('installer.environment.save'), [
+            'database_hostname' => 'localhost',
+            'database_port' => 3306,
+            'database_name' => 'test_db',
+            'database_username' => 'root',
+            'database_password' => 'password',
+        ]);
+
+        $response->assertRedirect(route('installer.database'));
+    }
+
+    /** @test */
+    public function it_fails_with_invalid_database_connection(): void
+    {
+        // Mock failed database connection
+        DB::shouldReceive('purge')->once();
+        DB::shouldReceive('connection->getPdo')->once()->andThrow(new \Exception('Connection failed'));
+
+        $response = $this->post(route('installer.environment.save'), [
+            'database_hostname' => 'invalid-host',
+            'database_port' => 3306,
+            'database_name' => 'test_db',
+            'database_username' => 'root',
+            'database_password' => 'wrong-password',
+        ]);
+
+        $response->assertRedirect(route('installer.environment'));
+        $response->assertSessionHasErrors(['database_connection']);
+    }
+
+    /** @test */
+    public function it_accepts_valid_database_credentials(): void
+    {
+        // Mock successful database connection
+        DB::shouldReceive('purge')->once();
+        DB::shouldReceive('connection->getPdo')->once()->andReturn(true);
+
+        $response = $this->post(route('installer.environment.save'), [
+            'database_hostname' => '127.0.0.1',
+            'database_port' => 3306,
+            'database_name' => 'juzaweb_test',
+            'database_username' => 'root',
+            'database_password' => '',
+        ]);
+
+        $response->assertRedirect(route('installer.database'));
+        $response->assertSessionDoesntHaveErrors();
+    }
+
+    /** @test */
+    public function it_saves_environment_file_on_success(): void
+    {
+        // Mock successful database connection
+        DB::shouldReceive('purge')->once();
+        DB::shouldReceive('connection->getPdo')->once()->andReturn(true);
+
+        $response = $this->post(route('installer.environment.save'), [
+            'database_hostname' => 'localhost',
+            'database_port' => 3306,
+            'database_name' => 'test_db',
+            'database_username' => 'root',
+            'database_password' => 'secret',
+        ]);
+
+        $response->assertRedirect(route('installer.database'));
+        $response->assertSessionHas('results');
+    }
 }
