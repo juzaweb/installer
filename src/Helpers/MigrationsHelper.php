@@ -11,7 +11,7 @@ trait MigrationsHelper
      *
      * @return array Array of migrations name, empty if no migrations are existing
      */
-    public function getMigrations()
+    public function getMigrations(): array
     {
         $migrations = glob(database_path().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'*.php');
 
@@ -23,7 +23,7 @@ trait MigrationsHelper
      *
      * @return \Illuminate\Support\Collection List of migrations
      */
-    public function getExecutedMigrations()
+    public function getExecutedMigrations(): \Illuminate\Support\Collection
     {
         // migrations table should exist, if not, user will receive an error.
         return DB::table('migrations')->get()->pluck('migration');
