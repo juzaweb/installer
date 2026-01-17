@@ -13,7 +13,7 @@ return [
     |
     */
     'core' => [
-        'minPhpVersion' => '7.2.5',
+        'minPhpVersion' => '8.2',
     ],
     'final' => [
         'key' => true,
@@ -45,7 +45,6 @@ return [
     'permissions' => [
         'storage/' => '775',
         'bootstrap/cache/' => '775',
-        'juzawebcore/' => '775',
         'resources/' => '775',
         'public/' => '775',
     ],

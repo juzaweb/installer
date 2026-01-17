@@ -32,7 +32,7 @@ class InstallerServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         $router->aliasMiddleware('install', CanInstall::class);
-        $router->pushMiddlewareToGroup('theme', Installed::class);
+        $router->pushMiddlewareToGroup('web', Installed::class);
         $this->registerViews();
     }
 

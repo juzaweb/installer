@@ -2,14 +2,10 @@
 /**
  * JUZAWEB CMS - The Best CMS for Laravel Project
  *
- * @package    juzawebcms/juzawebcms
+ * @package    juzaweb/cms
  * @author     The Anh Dang <dangtheanh16@gmail.com>
- * @link       https://github.com/juzawebcms/juzawebcms
+ * @link       https://github.com/juzaweb/cms
  * @license    MIT
- *
- * Created by JUZAWEB.
- * Date: 6/12/2021
- * Time: 5:58 PM
  */
 
 namespace Juzaweb\Installer\Http\Middleware;
@@ -24,6 +20,7 @@ class Installed
 {
     public function handle($request, Closure $next)
     {
+        dd('a');
         if (!Intaller::alreadyInstalled()) {
             if (strpos(Route::currentRouteName(), 'installer.') === false) {
                 return redirect()->route('installer.welcome');

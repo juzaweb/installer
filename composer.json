@@ -1,19 +1,14 @@
 {
     "name": "juzaweb/installer",
-    "description": "Mymo CMS",
+    "description": "Juzaweb CMS installer",
     "keywords": [],
     "license": "MIT",
     "homepage": "https://cms.juzaweb.com",
     "require": {
         "php": "^8.2"
     },
-    "require-dev": {
-        "laravel/laravel": "^6.0 | ^7.0 | ^8.0",
-        "phpunit/phpunit": "6.0 | 7.0 | 7.5 | 8.4 | ^8.5"
-    },
     "autoload": {
         "psr-4": {
-            "Juzaweb\\Installer\\Tests\\": "tests/",
             "Juzaweb\\Installer\\": "src/"
         }
     },
