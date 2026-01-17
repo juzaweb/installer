@@ -1,6 +1,10 @@
 # Juzaweb CMS Installer
 
+[![Tests](https://github.com/juzaweb/installer/actions/workflows/tests.yml/badge.svg)](https://github.com/juzaweb/installer/actions/workflows/tests.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A comprehensive installation package for Juzaweb CMS that provides a web-based installation wizard and command-line installation support.
+
 
 ## Features
 
@@ -154,7 +158,49 @@ The package dispatches the following events:
 - `Juzaweb\Installer\Events\EnvironmentSaved` - Fired when environment configuration is saved
 - `Juzaweb\Installer\Events\LaravelInstallerFinished` - Fired when installation is completed
 
+## Testing
+
+The package includes a comprehensive test suite using PHPUnit and Orchestra Testbench.
+
+### Running Tests
+
+```bash
+# Run all tests
+composer test
+
+# Run tests with coverage
+composer test-coverage
+
+# Run specific test file
+vendor/bin/phpunit tests/Feature/InstallerRoutesTest.php
+
+# Run tests with verbose output
+vendor/bin/phpunit --testdox
+```
+
+### Code Formatting
+
+The package uses Laravel Pint for code formatting:
+
+```bash
+# Format code
+composer format
+
+# Check code style without fixing
+vendor/bin/pint --test
+```
+
+### Continuous Integration
+
+The package uses GitHub Actions for automated testing. Tests run on:
+- PHP 8.2 and 8.3
+- Laravel 11.x
+- Ubuntu latest
+
+The CI workflow runs on every push and pull request to `main`, `master`, and `develop` branches.
+
 ## Security
+
 
 - The installer automatically disables itself after successful installation
 - Environment files are protected and not accessible via web
@@ -194,4 +240,3 @@ This package is open-sourced software licensed under the [MIT license](https://o
 
 For support and documentation, visit:
 - Homepage: [https://cms.juzaweb.com](https://cms.juzaweb.com)
-- Documentation: [https://docs.juzaweb.com](https://docs.juzaweb.com)
