@@ -1,7 +1,10 @@
 {
     "name": "juzaweb/installer",
     "description": "Juzaweb CMS installer",
-    "keywords": [],
+    "keywords": [
+        "Juzaweb CMS",
+        "installer"
+    ],
     "license": "MIT",
     "homepage": "https://cms.juzaweb.com",
     "require": {
