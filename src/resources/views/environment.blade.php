@@ -10,7 +10,7 @@
 @endsection
 
 @section('container')
-    <form method="post" action="{{ route('installer.environmentSaveWizard') }}" class="tabs-wrap" autocomplete="off">
+    <form method="post" action="{{ route('installer.environment.save') }}" class="tabs-wrap" autocomplete="off">
         @csrf
 
         <div class="form-group">
@@ -18,10 +18,14 @@
                 {{ trans('installer::message.environment.wizard.form.db_connection_label') }}
             </label>
             <select name="database_connection" id="database_connection">
-                <option value="mysql" selected>{{ trans('installer::message.environment.wizard.form.db_connection_label_mysql') }}</option>
-                <option value="sqlite">{{ trans('installer::message.environment.wizard.form.db_connection_label_sqlite') }}</option>
-                <option value="pgsql">{{ trans('installer::message.environment.wizard.form.db_connection_label_pgsql') }}</option>
-                <option value="sqlsrv">{{ trans('installer::message.environment.wizard.form.db_connection_label_sqlsrv') }}</option>
+                <option value="mysql" selected>
+                    {{ trans('installer::message.environment.wizard.form.db_connection_label_mysql') }}</option>
+                <option value="sqlite">{{ trans('installer::message.environment.wizard.form.db_connection_label_sqlite') }}
+                </option>
+                <option value="pgsql">{{ trans('installer::message.environment.wizard.form.db_connection_label_pgsql') }}
+                </option>
+                <option value="sqlsrv">{{ trans('installer::message.environment.wizard.form.db_connection_label_sqlsrv') }}
+                </option>
             </select>
         </div>
 
@@ -29,7 +33,9 @@
             <label for="database_hostname">
                 {{ trans('installer::message.environment.wizard.form.db_host_label') }}
             </label>
-            <input type="text" name="database_hostname" id="database_hostname" value="127.0.0.1" placeholder="{{ trans('installer::message.environment.wizard.form.db_host_placeholder') }}" autocomplete="off" />
+            <input type="text" name="database_hostname" id="database_hostname" value="127.0.0.1"
+                placeholder="{{ trans('installer::message.environment.wizard.form.db_host_placeholder') }}"
+                autocomplete="off" />
             @if ($errors->has('database_hostname'))
                 <span class="error-block">
                     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
@@ -42,7 +48,9 @@
             <label for="database_port">
                 {{ trans('installer::message.environment.wizard.form.db_port_label') }}
             </label>
-            <input type="number" name="database_port" id="database_port" value="3306" placeholder="{{ trans('installer::message.environment.wizard.form.db_port_placeholder') }}" autocomplete="off" />
+            <input type="number" name="database_port" id="database_port" value="3306"
+                placeholder="{{ trans('installer::message.environment.wizard.form.db_port_placeholder') }}"
+                autocomplete="off" />
             @if ($errors->has('database_port'))
                 <span class="error-block">
                     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
@@ -55,7 +63,9 @@
             <label for="database_name">
                 {{ trans('installer::message.environment.wizard.form.db_name_label') }}
             </label>
-            <input type="text" name="database_name" id="database_name" value="" placeholder="{{ trans('installer::message.environment.wizard.form.db_name_placeholder') }}" autocomplete="off" />
+            <input type="text" name="database_name" id="database_name" value=""
+                placeholder="{{ trans('installer::message.environment.wizard.form.db_name_placeholder') }}"
+                autocomplete="off" />
             @if ($errors->has('database_name'))
                 <span class="error-block">
                     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
@@ -68,7 +78,9 @@
             <label for="database_username">
                 {{ trans('installer::message.environment.wizard.form.db_username_label') }}
             </label>
-            <input type="text" name="database_username" id="database_username" value="" placeholder="{{ trans('installer::message.environment.wizard.form.db_username_placeholder') }}" autocomplete="off" />
+            <input type="text" name="database_username" id="database_username" value=""
+                placeholder="{{ trans('installer::message.environment.wizard.form.db_username_placeholder') }}"
+                autocomplete="off" />
             @if ($errors->has('database_username'))
                 <span class="error-block">
                     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
@@ -81,7 +93,9 @@
             <label for="database_password">
                 {{ trans('installer::message.environment.wizard.form.db_password_label') }}
             </label>
-            <input type="password" name="database_password" id="database_password" value="" placeholder="{{ trans('installer::message.environment.wizard.form.db_password_placeholder') }}" autocomplete="off" />
+            <input type="password" name="database_password" id="database_password" value=""
+                placeholder="{{ trans('installer::message.environment.wizard.form.db_password_placeholder') }}"
+                autocomplete="off" />
             @if ($errors->has('database_password'))
                 <span class="error-block">
                     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
@@ -102,11 +116,11 @@
 @section('scripts')
     <script type="text/javascript">
         function checkEnvironment(val) {
-            var element=document.getElementById('environment_text_input');
-            if(val=='other') {
-                element.style.display='block';
+            var element = document.getElementById('environment_text_input');
+            if (val == 'other') {
+                element.style.display = 'block';
             } else {
-                element.style.display='none';
+                element.style.display = 'none';
             }
         }
 
@@ -118,7 +132,7 @@
             document.getElementById('tab3').checked = true;
         }
 
-        $('form').on('submit', function () {
+        $('form').on('submit', function() {
             $('.btn-submit')
                 .html("{{ trans('juzaweb::app.please_wait') }}")
                 .prop('disabled', true);
