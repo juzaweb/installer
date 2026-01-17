@@ -3,8 +3,6 @@
 namespace Juzaweb\Installer\Tests\Feature;
 
 use Juzaweb\Installer\Tests\TestCase;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class AdminPostTest extends TestCase
 {
@@ -164,11 +162,6 @@ class AdminPostTest extends TestCase
     /** @test */
     public function it_creates_admin_user_with_valid_data(): void
     {
-        // Mock database transaction
-        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
-            return $callback();
-        });
-
         $response = $this->post(route('installer.admin.save'), [
             'name' => 'Super Admin',
             'email' => 'admin@juzaweb.com',
@@ -178,15 +171,18 @@ class AdminPostTest extends TestCase
 
         $response->assertRedirect(route('installer.final'));
         $response->assertSessionHas('message');
+
+        // Verify user was created in database
+        $this->assertDatabaseHas('users', [
+            'name' => 'Super Admin',
+            'email' => 'admin@juzaweb.com',
+            'is_super_admin' => true,
+        ]);
     }
 
     /** @test */
     public function it_redirects_to_final_page_on_success(): void
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
-            return $callback();
-        });
-
         $response = $this->post(route('installer.admin.save'), [
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -201,10 +197,6 @@ class AdminPostTest extends TestCase
     /** @test */
     public function it_hashes_password_before_saving(): void
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
-            return $callback();
-        });
-
         $plainPassword = 'MySecretPassword123';
 
         $response = $this->post(route('installer.admin.save'), [
@@ -222,10 +214,6 @@ class AdminPostTest extends TestCase
     /** @test */
     public function it_accepts_various_valid_email_formats(): void
     {
-        DB::shouldReceive('transaction')->times(3)->andReturnUsing(function ($callback) {
-            return $callback();
-        });
-
         $validEmails = [
             'user@example.com',
             'admin.user@company.co.uk',
@@ -248,10 +236,6 @@ class AdminPostTest extends TestCase
     /** @test */
     public function it_accepts_password_with_special_characters(): void
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
-            return $callback();
-        });
-
         $complexPassword = 'P@ssw0rd!#$%';
 
         $response = $this->post(route('installer.admin.save'), [
@@ -268,10 +252,6 @@ class AdminPostTest extends TestCase
     /** @test */
     public function it_shows_success_message_on_completion(): void
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
-            return $callback();
-        });
-
         $response = $this->post(route('installer.admin.save'), [
             'name' => 'Administrator',
             'email' => 'admin@site.com',

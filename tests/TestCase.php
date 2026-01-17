@@ -41,4 +41,17 @@ abstract class TestCase extends Orchestra
             'prefix'   => '',
         ]);
     }
+
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        
+        // Create users table for testing
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+    }
 }
