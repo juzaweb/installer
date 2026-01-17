@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Juzaweb\Installer\Helpers\DatabaseManager;
 use Juzaweb\Installer\Helpers\FinalInstallManager;
 use Juzaweb\Installer\Helpers\InstalledFileManager;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 
 class InstallCommand extends Command
 {
