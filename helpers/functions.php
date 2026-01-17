@@ -4,11 +4,11 @@ if (! function_exists('isActive')) {
     /**
      * Set the active class to the current opened menu.
      *
-     * @param  string|array $route
-     * @param  string       $className
+     * @param  array|string  $route
+     * @param  string  $className
      * @return string
      */
-    function isActive($route, $className = 'active')
+    function isActive(array|string $route, string $className = 'active'): false|string
     {
         if (is_array($route)) {
             return in_array(Route::currentRouteName(), $route) ? $className : '';

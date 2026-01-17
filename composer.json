@@ -10,7 +10,10 @@
     "autoload": {
         "psr-4": {
             "Juzaweb\\Installer\\": "src/"
-        }
+        },
+        "files": [
+            "helpers/functions.php"
+        ]
     },
     "extra": {
         "laravel": {
