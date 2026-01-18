@@ -43,7 +43,7 @@ class InstallCommand extends Command
         $this->createAdminUser();
         $this->info('-- Update installed');
         $fileManager->update();
-        $this->info('MYMO CMS Install Successfully !!!');
+        $this->info('Juzaweb CMS Install Successfully !!!');
     }
 
     protected function createAdminUser(): void
