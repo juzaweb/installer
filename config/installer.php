@@ -45,8 +45,6 @@ return [
     'permissions' => [
         'storage/' => '775',
         'bootstrap/cache/' => '775',
-        'resources/' => '775',
-        'public/' => '775',
     ],
 
     /*
