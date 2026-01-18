@@ -2,6 +2,8 @@
 
 namespace Juzaweb\Installer\Helpers;
 
+use Illuminate\Support\Facades\Artisan;
+
 class InstalledFileManager
 {
     /**
@@ -9,8 +11,13 @@ class InstalledFileManager
      *
      * @return int
      */
-    public function create()
+    public function create(): int|string
     {
+        Artisan::call('vendor:publish', [
+            '--tag' => 'core-assets',
+            '--force' => true,
+        ]);
+
         $installedLogFile = Intaller::installedPath();
         $dateStamp = date('Y/m/d h:i:sa');
 
@@ -32,7 +39,7 @@ class InstalledFileManager
      *
      * @return int
      */
-    public function update()
+    public function update(): int|string
     {
         return $this->create();
     }
