@@ -5,6 +5,7 @@ return [
     'next' => 'Next Step',
     'back' => 'Previous',
     'finish' => 'Install',
+    'please_wait' => 'Please Wait...',
     'forms' => [
         'error_title' => 'The Following errors occurred:',
     ],
@@ -122,11 +123,11 @@ return [
 
                     'pusher_label' => 'Pusher',
                     'pusher_app_id_label' => 'Pusher App Id',
-                    'pusher_app_id_palceholder' => 'Pusher App Id',
+                    'pusher_app_id_placeholder' => 'Pusher App Id',
                     'pusher_app_key_label' => 'Pusher App Key',
-                    'pusher_app_key_palceholder' => 'Pusher App Key',
+                    'pusher_app_key_placeholder' => 'Pusher App Key',
                     'pusher_app_secret_label' => 'Pusher App Secret',
-                    'pusher_app_secret_palceholder' => 'Pusher App Secret',
+                    'pusher_app_secret_placeholder' => 'Pusher App Secret',
                 ],
                 'buttons' => [
                     'setup_database' => 'Setup Database',
