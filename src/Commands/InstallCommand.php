@@ -57,9 +57,9 @@ class InstallCommand extends Command
             'email' => 'required|email|max:150',
             'password' => 'required|max:32|min:6'
         ], [], [
-            'name' => trans('juzaweb::app.name'),
-            'email' => trans('juzaweb::app.email'),
-            'password' => trans('juzaweb::app.password')
+            'name' => trans('installer::message.environment.wizard.form.name'),
+            'email' => trans('installer::message.environment.wizard.form.email'),
+            'password' => trans('installer::message.environment.wizard.form.password')
         ]);
 
         if ($validator->fails()) {

@@ -134,7 +134,7 @@
 
         $('form').on('submit', function() {
             $('.btn-submit')
-                .html("{{ trans('juzaweb::app.please_wait') }}")
+                .html("{{ trans('installer::message.please_wait') }}")
                 .prop('disabled', true);
         });
     </script>
