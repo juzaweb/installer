@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class EnvironmentPostTest extends TestCase
 {
+    protected function defineDatabaseMigrations(): void
+    {
+        // Do nothing to prevent migrations from running
+    }
+
     /** @test */
     public function it_validates_required_database_fields(): void
     {

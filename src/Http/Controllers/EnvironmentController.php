@@ -67,26 +67,25 @@ class EnvironmentController extends Controller
 
         $settings = config("database.connections.{$connection}");
 
+        if (!is_array($settings)) {
+            $settings = [];
+        }
+
         config([
-            'database' => [
-                'default' => $connection,
-                'connections' => [
-                    $connection => array_merge($settings, [
-                        'driver' => $connection,
-                        'host' => $request->input('database_hostname'),
-                        'port' => $request->input('database_port'),
-                        'database' => $request->input('database_name'),
-                        'username' => $request->input('database_username'),
-                        'password' => $request->input('database_password'),
-                    ]),
-                ],
-            ],
+            "database.connections.{$connection}" => array_merge($settings, [
+                'driver' => $connection,
+                'host' => $request->input('database_hostname'),
+                'port' => $request->input('database_port'),
+                'database' => $request->input('database_name'),
+                'username' => $request->input('database_username'),
+                'password' => $request->input('database_password'),
+            ]),
         ]);
 
-        DB::purge();
+        DB::purge($connection);
 
         try {
-            DB::connection()->getPdo();
+            DB::connection($connection)->getPdo();
 
             return true;
         } catch (Exception $e) {
