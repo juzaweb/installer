@@ -50,6 +50,8 @@ abstract class TestCase extends Orchestra
     protected function defineDatabaseMigrations(): void
     {
         $this->loadLaravelMigrations(['--database' => 'testbench']);
+
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/juzaweb/core/database/migrations');
         
         // Create users table for testing
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
