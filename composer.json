@@ -9,13 +9,13 @@
     "homepage": "https://cms.juzaweb.com",
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^11.0"
+        "illuminate/support": "^11.0",
+        "juzaweb/core": "dev-master | ^5.0"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0",
         "phpunit/phpunit": "^11.0",
-        "laravel/pint": "^1.13",
-        "juzaweb/core": "dev-master"
+        "laravel/pint": "^1.13"
     },
     "autoload": {
         "psr-4": {
