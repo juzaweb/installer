@@ -33,7 +33,7 @@ class FinalInstallManager
     private static function generateKey(BufferedOutput $outputLog)
     {
         try {
-            if (config('installer.final.key')) {
+            if (config('installer.final.key') && !config('app.key')) {
                 Artisan::call('key:generate', ['--force'=> true], $outputLog);
             }
         } catch (Throwable $e) {
