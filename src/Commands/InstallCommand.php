@@ -26,7 +26,7 @@ use Juzaweb\Modules\Core\Models\User;
 class InstallCommand extends Command
 {
     protected $signature = 'juzaweb:install
-        {--fullname=}
+        {--name=}
         {--email=}
         {--password=}';
 
@@ -43,6 +43,11 @@ class InstallCommand extends Command
         $this->info('-- Publish assets');
         $finalInstall->runFinal();
         $this->info('-- Create user admin');
+
+        $this->user['name'] = $this->option('name');
+        $this->user['email'] = $this->option('email');
+        $this->user['password'] = $this->option('password');
+
         $this->createAdminUser();
         $this->info('-- Update installed');
         $fileManager->update();
@@ -51,12 +56,6 @@ class InstallCommand extends Command
 
     protected function createAdminUser(): void
     {
-        if (empty($this->user)) {
-            $this->user['name'] = $this->option('fullname');
-            $this->user['email'] = $this->option('email');
-            $this->user['password'] = $this->option('password');
-        }
-
         if (empty($this->user['name'])) {
             $this->user['name'] = $this->ask('Full Name?');
         }

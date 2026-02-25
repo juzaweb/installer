@@ -31,7 +31,7 @@ class InstallCommandTest extends TestCase
     public function test_install_command_with_options()
     {
         $this->artisan('juzaweb:install', [
-            '--fullname' => 'Test User',
+            '--name' => 'Test User',
             '--email' => 'test@example.com',
             '--password' => 'password123',
         ])
@@ -52,9 +52,6 @@ class InstallCommandTest extends TestCase
 
     public function test_install_command_interactive()
     {
-        // Re-mock because setUp mocks are per-test but used once in previous test?
-        // Actually setUp runs before each test so mocks are fresh.
-
         $this->artisan('juzaweb:install')
             ->expectsQuestion('Full Name?', 'Interactive User')
             ->expectsQuestion('Email?', 'interactive@example.com')
@@ -71,25 +68,33 @@ class InstallCommandTest extends TestCase
     public function test_install_command_validation_failure_and_retry()
     {
         $this->artisan('juzaweb:install', [
-            '--fullname' => 'Test User',
-            '--email' => 'invalid-email', // Invalid
+            '--name' => 'Test User',
+            '--email' => 'invalid-email',
             '--password' => 'password123',
         ])
-        // Validation error might be language dependent, but typically "The email field must be a valid email address."
-        // or checking that it outputs *some* error.
-        // But `expectsOutput` matches exact string.
-        // Let's assume English default or use translation key if possible?
-        // The code uses `trans('installer::message.environment.wizard.form.email')` for attribute name.
-        // Laravel default validation message for email is "The :attribute must be a valid email address."
-        // So: "The Email must be a valid email address." (if attribute name is capitalized/translated)
-        // Let's just check the flow and be lenient on the error message if needed, or rely on standard laravel messages.
-        // Actually, let's verify what the attribute name translates to.
-        // In testbench, lang might be default.
         ->expectsQuestion('Email?', 'valid@example.com')
         ->assertExitCode(0);
 
         $this->assertDatabaseHas('users', [
             'name' => 'Test User',
+            'email' => 'valid@example.com',
+        ]);
+    }
+
+    public function test_install_command_with_all_invalid_options_prompts_user()
+    {
+        $this->artisan('juzaweb:install', [
+            '--name' => '', // Empty name (required)
+            '--email' => 'invalid-email', // Invalid email
+            '--password' => 'short', // Min 6
+        ])
+        ->expectsQuestion('Full Name?', 'Valid Name')
+        ->expectsQuestion('Email?', 'valid@example.com')
+        ->expectsQuestion('Password?', 'password123')
+        ->assertExitCode(0);
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Valid Name',
             'email' => 'valid@example.com',
         ]);
     }
