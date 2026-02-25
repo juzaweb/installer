@@ -25,9 +25,12 @@ use Juzaweb\Modules\Core\Models\User;
 
 class InstallCommand extends Command
 {
-    protected $signature = 'juzaweb:install';
+    protected $signature = 'juzaweb:install
+        {--fullname=}
+        {--email=}
+        {--password=}';
 
-    protected array $user;
+    protected array $user = [];
 
     public function handle(
         DatabaseManager $databaseManager,
@@ -48,9 +51,23 @@ class InstallCommand extends Command
 
     protected function createAdminUser(): void
     {
-        $this->user['name'] = $this->ask('Full Name?');
-        $this->user['email'] = $this->ask('Email?');
-        $this->user['password'] = $this->ask('Password?');
+        if (empty($this->user)) {
+            $this->user['name'] = $this->option('fullname');
+            $this->user['email'] = $this->option('email');
+            $this->user['password'] = $this->option('password');
+        }
+
+        if (empty($this->user['name'])) {
+            $this->user['name'] = $this->ask('Full Name?');
+        }
+
+        if (empty($this->user['email'])) {
+            $this->user['email'] = $this->ask('Email?');
+        }
+
+        if (empty($this->user['password'])) {
+            $this->user['password'] = $this->ask('Password?');
+        }
 
         $validator = Validator::make($this->user, [
             'name' => 'required|max:150',
@@ -63,8 +80,23 @@ class InstallCommand extends Command
         ]);
 
         if ($validator->fails()) {
-            $this->error($validator->errors()->messages()[0]);
+            $this->error($validator->errors()->first());
+
+            $errors = $validator->errors();
+            if ($errors->has('name')) {
+                unset($this->user['name']);
+            }
+
+            if ($errors->has('email')) {
+                unset($this->user['email']);
+            }
+
+            if ($errors->has('password')) {
+                unset($this->user['password']);
+            }
+
             $this->createAdminUser();
+            return;
         }
 
         DB::transaction(
