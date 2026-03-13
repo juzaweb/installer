@@ -30,6 +30,13 @@ class PermissionsChecker
     public function check(array $folders): array
     {
         foreach ($folders as $folder => $permission) {
+            $folderPath = base_path($folder);
+
+            if (file_exists($folderPath) && fileowner($folderPath) === getmyuid()) {
+                $this->addFile($folder, $permission, true);
+                continue;
+            }
+
             if (! ($this->getPermission($folder) >= $permission)) {
                 $this->addFileAndSetErrors($folder, $permission, false);
             } else {
