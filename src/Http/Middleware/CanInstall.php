@@ -17,7 +17,7 @@ class CanInstall
     public function handle($request, Closure $next)
     {
         if (Intaller::alreadyInstalled()) {
-            return redirect()->home();
+            return redirect()->to('/admin');
         }
 
         return $next($request);
